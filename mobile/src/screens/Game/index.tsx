@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRoute, useNavigation } from "@react-navigation/native";
@@ -15,6 +15,7 @@ import { Heading } from "../../components/Heading";
 import { Background } from "../../components/Background";
 // import { DuoMatch } from "../../components/DuoMatch";
 import { DuoCard, DuoCardProps } from "../../components/DuoCard";
+import { DuoMatch } from "../../components/DuoMatch";
 
 export function Game() {
   const [duos, setDuos] = useState<DuoCardProps[]>([])
@@ -31,17 +32,14 @@ export function Game() {
   async function getDiscordUser(adsId: string) {
     fetch(`http://192.168.0.104:3000/ads/${adsId}/discord`)
       .then(response => response.json())
-      .then(data => setDiscordDuoSelected(data.discord))
+      .then(data => setDiscordDuoSelected(data.discordA))
   }
 
   useEffect(() => {
     console.log(game.id)
     fetch(`http://192.168.0.104:3000/games/${game.id}/ads`)
       .then(response => response.json())
-      .then(data => {
-        setDuos(data)
-        console.log(data)
-      })
+      .then(data => setDuos(data))
   }, []);
 
   return (
@@ -95,11 +93,11 @@ export function Game() {
           }
         />
 
-        {/* <DuoMatch
+        <DuoMatch
           visible={discordDuoSelected.length > 0}
           discord={discordDuoSelected}
           onClose={() => setDiscordDuoSelected('')}
-        /> */}
+        />
       </SafeAreaView>
     </Background>
   );
