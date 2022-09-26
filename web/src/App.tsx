@@ -8,7 +8,8 @@ import { GameBanner } from './components/GameBanner';
 import { CreateAdsBanner } from './components/CreateAdsBanner';
 import { useState, useEffect } from "react";
 import { CreateAdModal } from "./components/CreateAdModal";
-
+import 'react-toastify/dist/ReactToastify.css';
+import {ToastContainer} from 'react-toastify';
 interface Game {
   id: string;
   title: string;
@@ -31,6 +32,7 @@ function App() {
 
   return (
     <div className="max-w-[1344px] mx-auto flex flex-col items-center my-20">
+      <ToastContainer autoClose={3000}/>
       <img src={logo} />
       <h1 className="text-6xl text-white font-black mt-20">
         Seu <span className="text-transparent bg-nlw-gradient bg-clip-text">duo</span> está aqui.

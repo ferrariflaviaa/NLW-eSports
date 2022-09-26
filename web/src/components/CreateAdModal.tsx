@@ -6,6 +6,7 @@ import * as ToggleGroup from '@radix-ui/react-toggle-group';
 
 import { Input } from "../components/Form/input";
 import { FormEvent, useEffect, useState } from "react";
+import { toast } from 'react-toastify'
 import axios from "axios";
 
 interface Game {
@@ -21,21 +22,21 @@ export function CreateAdModal() {
   useEffect(() => {
     axios('http://localhost:3000/games').then(response => {
       setGames(response.data);
-      // console.log(response.data[0].id);
     });
   }, []);
 
   async function handleCreateAd(event: FormEvent) {
-    event.preventDefault()
+    event.preventDefault();
 
     const formData = new FormData(event.target as HTMLFormElement);
     const data = Object.fromEntries(formData);
-    
     if (!data.name) {
       return;
     }
+    
+    toast.success('Anúncio criado com sucesso!');
     try {
-      const response = await axios.post(`http://localhost:3000/games/${data.game}/ads`, {
+      await axios.post(`http://localhost:3000/games/${data.game}/ads`, {
         name: data.name,
         yearsPlaying: Number(data.yearsPlaying),
         discordA: data.discordA,
@@ -44,10 +45,10 @@ export function CreateAdModal() {
         hourEnd: data.hourEnd,
         useVoiceChannel: useVoiceChannel,
       });
-      alert('Anúncio criado com sucesso!');
+      console.log("teste");
     } catch (err) {
       console.log(err);
-      alert('Erro ao criar anúncio!');
+      toast.warn('Erro ao criar anúncio!');
     }
   }
 
